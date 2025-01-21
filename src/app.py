@@ -16,7 +16,11 @@ def _():
 def _():
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
-    from modules.doc_actions import load_docs, add_docs_to_db
+    from modules.doc_actions import (
+        load_docs,
+        add_new_docs_to_db,
+    )
+    # from modules.doc_actions import
 
     # Congiguration Import
     config = get_config("config.toml")
@@ -38,12 +42,18 @@ def _():
     )
 
     # Get Sub Samples
-    doc_samples = docs[:20]
+    doc_samples = docs[:100]
 
-    # Add Sample Docs to Chroma DB
-    add_docs_to_db(docs=doc_samples, chroma_store=chroma_store)
+    # Add Documsnts to DB
+    id_of_new_docs = add_new_docs_to_db(doc_samples, chroma_store)
+
+    # Print data
+    print(f"No of new documents = {(len(id_of_new_docs),)}")
+
+    # Display data
+    id_of_new_docs
     return (
-        add_docs_to_db,
+        add_new_docs_to_db,
         chroma_store,
         config,
         doc_samples,
@@ -52,13 +62,9 @@ def _():
         get_chroma_store,
         get_config,
         get_ollama_embedder,
+        id_of_new_docs,
         load_docs,
     )
-
-
-@app.cell
-def _():
-    return
 
 
 if __name__ == "__main__":

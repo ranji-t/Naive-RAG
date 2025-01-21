@@ -34,10 +34,10 @@ def load_docs(
 
 
 def gen_doc_ids(docs: list[Document]) -> list[str]:
-    return [get_doc_id(doc) for doc in docs]
+    return [gen_doc_id(doc) for doc in docs]
 
 
-def get_doc_id(doc: Document) -> str:
+def gen_doc_id(doc: Document) -> str:
     return sha256(
         f"{doc.page_content}--{doc.metadata['source']}--{doc.metadata['start_index']}".encode()
     ).hexdigest()
