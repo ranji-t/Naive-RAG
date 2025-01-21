@@ -1,5 +1,5 @@
 # Third Party imports
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama.embeddings import OllamaEmbeddings
 
 
 def get_ollama_embedder(model: str) -> OllamaEmbeddings:

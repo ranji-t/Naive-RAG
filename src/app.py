@@ -8,16 +8,15 @@ app = marimo.App(width="full", app_title="RAG-Application")
 def marimo_init():
     # Third party imports
     import marimo as mo
-
     return (mo,)
 
 
 @app.cell
-def _():
+def data_ingestion():
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
     from modules.doc_actions import load_docs, add_new_docs_to_db
-    # from modules.doc_actions import
+
 
     # Congiguration Import
     config = get_config("config.toml")
@@ -35,11 +34,9 @@ def _():
         **config.get("docs").get("splitter"),
     )
 
-    # Get Sub Samples
-    doc_samples = docs[:500]
 
     # Add Documsnts to DB
-    id_of_new_docs = add_new_docs_to_db(doc_samples, chroma_store)
+    id_of_new_docs = add_new_docs_to_db(docs, chroma_store)
 
     # Print data
     print(f"No of new documents = {len(id_of_new_docs)}")
@@ -50,7 +47,6 @@ def _():
         add_new_docs_to_db,
         chroma_store,
         config,
-        doc_samples,
         docs,
         get_chroma_store,
         get_config,
@@ -58,6 +54,32 @@ def _():
         id_of_new_docs,
         load_docs,
     )
+
+
+@app.cell
+def _():
+    from langchain_ollama.llms import OllamaLLM
+    from langchain_core.prompts import ChatPromptTemplate
+
+    # Templates
+    template = """Question: {question}
+
+    Answer: Let's think step by step."""
+    # Create Prompt
+    prompt = ChatPromptTemplate.from_template(template)
+
+    # Create Modle
+    model = OllamaLLM(model="deepseek-r1:1.5b")
+
+    # Create Chain Prompt + Model
+    chain = prompt | model
+    return ChatPromptTemplate, OllamaLLM, chain, model, prompt, template
+
+
+@app.cell
+def _(chain):
+    chain.invoke({"question": "What is LangChain?"})
+    return
 
 
 if __name__ == "__main__":
