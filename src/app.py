@@ -5,7 +5,7 @@ app = marimo.App(width="full", app_title="RAG-Application")
 
 
 @app.cell
-def _():
+def marimo_init():
     # Third party imports
     import marimo as mo
 
@@ -16,21 +16,15 @@ def _():
 def _():
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
-    from modules.doc_actions import (
-        load_docs,
-        add_new_docs_to_db,
-    )
+    from modules.doc_actions import load_docs, add_new_docs_to_db
     # from modules.doc_actions import
 
     # Congiguration Import
     config = get_config("config.toml")
 
-    # Set up Ollama Embedder
-    embedding_function = get_ollama_embedder(config)
-
     # Set up Chroma DB with Embedder
     chroma_store = get_chroma_store(
-        embedding_function=embedding_function,
+        embedding_function=get_ollama_embedder(config.get("embedder").get("name")),
         chroma_config=config.get("chroma-client"),
         collection_name=config.get("chroma-collection").get("name"),
     )
@@ -42,13 +36,13 @@ def _():
     )
 
     # Get Sub Samples
-    doc_samples = docs[:100]
+    doc_samples = docs[:500]
 
     # Add Documsnts to DB
     id_of_new_docs = add_new_docs_to_db(doc_samples, chroma_store)
 
     # Print data
-    print(f"No of new documents = {(len(id_of_new_docs),)}")
+    print(f"No of new documents = {len(id_of_new_docs)}")
 
     # Display data
     id_of_new_docs
@@ -58,7 +52,6 @@ def _():
         config,
         doc_samples,
         docs,
-        embedding_function,
         get_chroma_store,
         get_config,
         get_ollama_embedder,
