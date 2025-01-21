@@ -1,0 +1,17 @@
+[chroma-client]
+    host="localhost"
+    port=8765
+    chroma_client_auth_provider="chromadb.auth.basic_authn.BasicAuthClientProvider"
+    chroma_client_auth_credentials="admin:admin"
+
+[chroma-collection]
+    name="default-collection"
+
+[embedder]
+    name="nomic-embed-text:latest"
+
+[docs]
+    glob_pattern="D:\\CodeBase\\data\\Witcher\\RESSOURCES\\_books/text\\*.txt"
+[docs.splitter]
+    chunk_size=4000
+    chunk_overlap=200

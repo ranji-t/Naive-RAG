@@ -1,0 +1,13 @@
+[project]
+name = "naive-rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bcrypt>=4.2.1",
+    "chromadb-client>=0.6.3",
+    "langchain>=0.3.15",
+    "langchain-community>=0.3.15",
+    "marimo>=0.10.14",
+]
