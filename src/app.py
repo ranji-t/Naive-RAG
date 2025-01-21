@@ -16,7 +16,7 @@ def _():
 def _():
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
-    from modules.doc_actions import load_docs, gen_doc_ids
+    from modules.doc_actions import load_docs, add_docs_to_db
 
     # Congiguration Import
     config = get_config("config.toml")
@@ -40,29 +40,20 @@ def _():
     # Get Sub Samples
     doc_samples = docs[:20]
 
-    # Add Documents to DB
-    chroma_store.add_documents(
-        documents=doc_samples, **{"ids": gen_doc_ids(doc_samples)}
-    )
+    # Add Sample Docs to Chroma DB
+    add_docs_to_db(docs=doc_samples, chroma_store=chroma_store)
     return (
+        add_docs_to_db,
         chroma_store,
         config,
         doc_samples,
         docs,
         embedding_function,
-        gen_doc_ids,
         get_chroma_store,
         get_config,
         get_ollama_embedder,
         load_docs,
     )
-
-
-@app.cell
-def _(config):
-    # Show Config
-    config
-    return
 
 
 @app.cell
