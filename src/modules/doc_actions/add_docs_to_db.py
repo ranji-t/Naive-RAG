@@ -1,6 +1,6 @@
 # Third Party Imports
 from langchain.docstore.document import Document
-from langchain_community.vectorstores import Chroma
+from langchain_chroma.vectorstores import Chroma
 
 # Internal Imports
 from .doc_actions import gen_doc_id as gen_doc_id

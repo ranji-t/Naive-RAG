@@ -12,6 +12,12 @@ def marimo_init():
 
 
 @app.cell
+def _(mo):
+    mo.md("""# **Data Ingestion**""")
+    return
+
+
+@app.cell
 def data_ingestion():
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
@@ -40,9 +46,6 @@ def data_ingestion():
 
     # Print data
     print(f"No of new documents = {len(id_of_new_docs)}")
-
-    # Display data
-    id_of_new_docs
     return (
         add_new_docs_to_db,
         chroma_store,
@@ -57,14 +60,42 @@ def data_ingestion():
 
 
 @app.cell
+def _(docs):
+    [doc for doc in docs]
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""# **Chain of Thought**""")
+    return
+
+
+@app.cell
+def _(mo):
+    # Select  Model
+    llm_modle_name = mo.ui.dropdown(
+        options=["deepseek-r1:1.5b", "deepseek-r1:7b"], value="deepseek-r1:1.5b"
+    )
+
+    # Display Dropdown  Options
+    llm_modle_name
+    return (llm_modle_name,)
+
+
+@app.cell
 def _():
-    from langchain_ollama.llms import OllamaLLM
+    # Third Party Imports
     from langchain_core.prompts import ChatPromptTemplate
+    from langchain_ollama.llms import OllamaLLM
+
 
     # Templates
     template = """Question: {question}
 
-    Answer: Let's think step by step."""
+    System: Write the outputs Markdown
+
+    Answer: Let's think step by step"""
     # Create Prompt
     prompt = ChatPromptTemplate.from_template(template)
 
@@ -77,8 +108,60 @@ def _():
 
 
 @app.cell
-def _(chain):
-    chain.invoke({"question": "What is LangChain?"})
+def _(mo):
+    # Get data from user
+    text_input = mo.ui.text(
+        value="",
+        placeholder="Write ur question here...",
+        full_width=True,
+    )
+
+    # Show data
+    text_input
+    return (text_input,)
+
+
+@app.cell
+def _(chain, mo, text_input):
+    # Text input
+    if text_input.value == "":
+        output = ""
+    else:
+        # Get output
+        output = chain.invoke({"question": text_input.value})
+
+    # Show Output of the LLM
+    mo.md(output)
+    return (output,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""# **Retrival of Query**""")
+    return
+
+
+@app.cell
+def _(mo):
+    # Get data from user
+    query_input = mo.ui.text(
+        value="",
+        placeholder="Write ur question here...",
+        full_width=True,
+    )
+
+    # Show data
+    query_input
+    return (query_input,)
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
     return
 
 

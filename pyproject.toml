@@ -8,6 +8,7 @@ dependencies = [
     "bcrypt>=4.2.1",
     "chromadb-client>=0.6.3",
     "langchain>=0.3.15",
+    "langchain-chroma>=0.2.0",
     "langchain-community>=0.3.15",
     "langchain-ollama>=0.2.2",
     "marimo>=0.10.14",

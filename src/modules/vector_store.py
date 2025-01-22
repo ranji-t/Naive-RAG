@@ -4,7 +4,7 @@ from typing import Any
 # Third party imports
 from chromadb import Embeddings, HttpClient
 from chromadb.config import Settings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma.vectorstores import Chroma
 
 
 def get_chroma_store(
