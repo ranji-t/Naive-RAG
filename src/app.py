@@ -18,7 +18,7 @@ def _(mo):
 
 
 @app.cell
-def data_ingestion():
+def data_ingestion(mo):
     # Third Pary Imports
     from modules import get_config, get_ollama_embedder, get_chroma_store
     from modules.doc_actions import load_docs, add_new_docs_to_db
@@ -45,7 +45,7 @@ def data_ingestion():
     id_of_new_docs = add_new_docs_to_db(docs, chroma_store)
 
     # Print data
-    print(f"No of new documents = {len(id_of_new_docs)}")
+    mo.md(f"No of new documents = {len(id_of_new_docs)}")
     return (
         add_new_docs_to_db,
         chroma_store,
@@ -57,12 +57,6 @@ def data_ingestion():
         id_of_new_docs,
         load_docs,
     )
-
-
-@app.cell
-def _(docs):
-    [doc for doc in docs]
-    return
 
 
 @app.cell
@@ -156,12 +150,17 @@ def _(mo):
 
 
 @app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
+def _(chroma_store, query_input):
+    chroma_store.search(
+        query=query_input.value,
+        search_type="similarity",
+        **{
+            "k": 7,
+            # "score_threshold": 0.15,
+            # "fetch_k": 3,
+            # "lambda_mult": 0.5
+        },
+    )
     return
 
 

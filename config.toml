@@ -5,7 +5,7 @@
     chroma_client_auth_credentials="admin:admin"
 
 [chroma-collection]
-    name="default-collection"
+    name="witcher-novels"
 
 [embedder]
     name="nomic-embed-text:latest"
@@ -13,5 +13,5 @@
 [docs]
     glob_pattern="D:\\CodeBase\\data\\Witcher\\RESSOURCES\\_books/text\\*.txt"
 [docs.splitter]
-    chunk_size=4000
-    chunk_overlap=200
+    chunk_size=2000
+    chunk_overlap=100
